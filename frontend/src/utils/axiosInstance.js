@@ -1,6 +1,8 @@
 import axios from "axios";
+
 const axiosInstance = axios.create({
- baseURL: import.meta.env.VITE_API_URL,
+  // FIX: Added :5000/api to the URL below
+  baseURL: import.meta.env.VITE_API_URL || "http://3.250.11.183",
 });
 
 // Attach JWT token from localStorage to every request if available
@@ -9,7 +11,8 @@ axiosInstance.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
- console.log("Request URL:", config.baseURL + config.url);
+  // This will now log correctly: http://3.250.11.183/videos
+  console.log("Request URL:", config.baseURL + config.url);
   return config;
 });
 

@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports: 
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb+srv://harshitsharma9989:Harsh%409936@webappdevcluster.k8dpmow.mongodb.net/youtube-clone?retryWrites=true&w=majority&appName=WebAppDevCluster
+
+      - JWT_SECRET=my_secure_jwt_secret
+      - CLOUDINARY_CLOUD_NAME=dqtucqury
+      - CLOUDINARY_API_KEY=686779488612168
+      - CLOUDINARY_API_SECRET=mNwZ_chxWGyxcLw7pzavLi_iZR8
+    depends_on:
+      - mongodb
+    networks:
+      - app-net
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://3.250.11.183
+    environment:
+      - VITE_API_URL=http://3.250.11.183
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-net
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-net
+
+volumes:
+  mongo-data:
+
+networks:
+  app-net:
+    driver: bridge
