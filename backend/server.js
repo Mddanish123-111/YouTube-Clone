@@ -22,6 +22,7 @@ app.use(
     origin: [
       "http://localhost:5173", // for local development
       "https://mytubefrontend.vercel.app", // main domain
+      "http://54.246.78.218",   // ✅ ADD THIS
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
